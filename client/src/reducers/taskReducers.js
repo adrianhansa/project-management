@@ -34,7 +34,7 @@ export const getTaskListReducer = (state = [], action) => {
     case TASK_LIST_REQUEST:
       return { loading: true };
     case TASK_LIST_SUCCESS:
-      return { loading: false, task: action.payload };
+      return { loading: false, tasks: action.payload };
     case TASK_LIST_FAIL:
       return { loading: false, error: action.payload };
     default:

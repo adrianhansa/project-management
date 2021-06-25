@@ -11,6 +11,14 @@ import {
   deleteProjectReducer,
 } from "./reducers/projectReducers";
 
+import {
+  getTaskDetailsReducer,
+  getTaskListReducer,
+  createTaskReducer,
+  updateTaskReducer,
+  deleteTaskReducer,
+} from "./reducers/taskReducers";
+
 const reducers = combineReducers({
   userLogin: login,
   userRegister: register,
@@ -19,6 +27,11 @@ const reducers = combineReducers({
   updatedProject: updateProjectReducer,
   deletedProject: deleteProjectReducer,
   createdProject: createProjectReducer,
+  getTaskDetails: getTaskDetailsReducer,
+  getTaskList: getTaskListReducer,
+  createdTask: createTaskReducer,
+  updatedTask: updateTaskReducer,
+  deletedTask: deleteTaskReducer,
 });
 
 const userFromStorage = localStorage.getItem("currentUser")
