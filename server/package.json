@@ -4,7 +4,7 @@
   "description": "An application for managing small and medium projects and tasks built with Mongodb, Express, React and Node",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon index"
   },
   "keywords": [
     "MERN",
@@ -27,6 +27,7 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.14",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "slugify": "^1.5.3"
   }
 }
