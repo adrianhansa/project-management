@@ -28,12 +28,13 @@ const register = async (req, res) => {
       });
     //hashing the password
     const passwordHashed = await bcrypt.hash(password, 10);
+    //To do: confirm email before creating the account
     //creating the new user
     const user = await User.create({ email, password: passwordHashed, name });
     //sending the token
     sendToken(user, 200, res);
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message, success: false });
   }
 };
 
@@ -57,39 +58,73 @@ const login = async (req, res) => {
         .json({ success: false, message: "Invalid email/password." });
     sendToken(user, 200, res);
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message, success: false });
   }
 };
 
 const getProfile = async (req, res) => {
   try {
-    res.send("User profile");
+    const user = await User.findById(req.user);
+    if (!user)
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found." });
+    res.status(200).json({ success: true, user });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message, success: false });
   }
 };
 
 const updateProfile = async (req, res) => {
   try {
-    //
+    const { name, email, password, passwordVerify } = req.body;
+    console.log(req.body);
+    const user = await User.findById(req.user);
+    if (!user)
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found." });
+    if (password.length > 6 && password === passwordVerify) {
+      const passwordHashed = bcrypt.hash(password, 10);
+      const userUpdated = await User.findByIdAndUpdate(
+        req.user,
+        { email, name, password: passwordHashed },
+        { new: true }
+      );
+      sendToken(userUpdated, 200, res);
+    } else {
+      const userUpdated = await User.findByIdAndUpdate(
+        req.user,
+        { email, name },
+        { new: true }
+      );
+      sendToken(userUpdated, 200, res);
+    }
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message, success: false });
   }
 };
 
 const deleteAccount = async (req, res) => {
   try {
-    //
+    const user = await User.findByIdAndDelete(req.user);
+    if (!user)
+      return res
+        .status(404)
+        .json({ message: "User not found", success: false });
+    //to do: send an email confirming the account was deleted successfully
+    res.status(200).json({ success: true, message: "Account deleted" });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message, success: false });
   }
 };
 
 const logout = async (req, res) => {
   try {
+    res.header("token", null);
     res.status(200).json({ message: "Logout", success: true });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message, success: false });
   }
 };
 

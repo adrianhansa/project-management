@@ -1,4 +1,6 @@
 const router = require("express").Router();
+const auth = require("../middlewares/auth");
+
 const {
   register,
   login,
@@ -11,8 +13,8 @@ const {
 router.post("/register", register);
 router.post("/login", login);
 router.get("/logout", logout);
-router.get("/profile", getProfile);
-router.put("/profile", updateProfile);
-router.delete("/delete-account", deleteAccount);
+router.get("/profile", auth, getProfile);
+router.put("/profile", auth, updateProfile);
+router.delete("/delete-account", auth, deleteAccount);
 
 module.exports = router;
