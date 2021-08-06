@@ -11,9 +11,9 @@ app.use(express.json());
 app.use(morgan("tiny"));
 app.use(cors({ origin: ["http://localhost:3000"], httpOnly: true }));
 
-app.get("/", (req, res) => {
-  res.send("Hello");
-});
+const userRoutes = require("./routes/userRoutes");
+
+app.use("/api/user", userRoutes);
 
 mongoose
   .connect(process.env.DB_CONNECTION, {
