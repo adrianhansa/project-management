@@ -27,7 +27,12 @@ const createTask = async (req, res) => {
 
 const getTask = async (req, res) => {
   try {
-    //
+    const task = await Task.findById(req.params.id);
+    if (!task)
+      return res
+        .status(404)
+        .json({ success: false, message: "Task not found." });
+    res.status(200).json({ success: true, task });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }
@@ -51,7 +56,17 @@ const getTasks = async (req, res) => {
 
 const updateTask = async (req, res) => {
   try {
-    //
+    if (!req.body.description)
+      return res.status(400).json({
+        success: false,
+        message: "Please provide a description for this task.",
+      });
+    const task = await Task.findByIdAndUpdate(
+      req.params.id,
+      { description: req.body.description, completed: req.body.completed },
+      { new: true }
+    );
+    res.status(200).json({ success: true, task });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }
@@ -59,7 +74,12 @@ const updateTask = async (req, res) => {
 
 const deleteTask = async (req, res) => {
   try {
-    //
+    const task = await Task.findByIdAndDelete(req.params.id);
+    if (!task)
+      return res
+        .status(404)
+        .json({ success: false, message: "Task not found." });
+    res.status(200).json({ success: true, message: "Task deleted." });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }
