@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 require("dotenv/config");
 const morgan = require("morgan");
 const cors = require("cors");
-
 const PORT = process.env.PORT || 5000;
 
 const app = express();
@@ -12,8 +11,12 @@ app.use(morgan("tiny"));
 app.use(cors({ origin: ["http://localhost:3000"], httpOnly: true }));
 
 const userRoutes = require("./routes/userRoutes");
+const projectRoutes = require("./routes/projectRoutes");
+const taskRoutes = require("./routes/taskRoutes");
 
 app.use("/api/user", userRoutes);
+app.use("/api/projects", projectRoutes);
+app.use("/api", taskRoutes);
 
 mongoose
   .connect(process.env.DB_CONNECTION, {
