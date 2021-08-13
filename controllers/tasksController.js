@@ -48,7 +48,7 @@ const getTasks = async (req, res) => {
       "project",
       "name dueBy -_id"
     );
-    res.status(200).json({ success: true, tasks });
+    res.status(200).json(tasks);
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }
