@@ -122,7 +122,7 @@ const deleteAccount = async (req, res) => {
 const logout = async (req, res) => {
   try {
     res.header("token", null);
-    res.status(200).json({ token: null });
+    res.status(200).json(false);
   } catch (error) {
     return res.status(500).json({ message: error.message, success: false });
   }
