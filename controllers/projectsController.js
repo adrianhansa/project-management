@@ -1,4 +1,5 @@
 const Project = require("../models/Project");
+const Task = require("../models/Task");
 const slugify = require("slugify");
 const moment = require("moment");
 
@@ -49,7 +50,8 @@ const getProject = async (req, res) => {
       return res
         .status(404)
         .json({ success: false, message: "Project not found." });
-    res.status(200).json({ success: true, project });
+    const tasks = await Task.find({ project: project._id });
+    res.status(200).json({ project, tasks });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }
