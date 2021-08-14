@@ -16,7 +16,7 @@ const createProject = async (req, res) => {
       });
     const dueBy = moment().add(Number(req.body.estimatedDuration), "days");
     const project = await Project.create({ user: req.user, name, dueBy });
-    res.status(200).json(project });
+    res.status(200).json(project);
   } catch (error) {
     return res.status(500).json({ message: error.message, success: false });
   }
