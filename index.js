@@ -14,12 +14,13 @@ const userRoutes = require("./routes/userRoutes");
 const projectRoutes = require("./routes/projectRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 
-app.use("/", (req, res) => {
-  res.status(200).send("Welcome to Project management server");
-});
 app.use("/api/user", userRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api", taskRoutes);
+
+app.use("/", (req, res) => {
+  res.status(200).send("Welcome to Project management server");
+});
 
 mongoose
   .connect(process.env.DB_CONNECTION, {
